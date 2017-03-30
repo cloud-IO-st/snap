@@ -141,7 +141,7 @@ parts:
                         - pkg-config
                         - libcap-dev
                 organize:
-                        snap/(SUBUTAI)/current/share: share 
+                        snap/$SNAPCRAFT_PROJECT_NAME/current/share: share 
                         sbin: bin
                 snap:
                         - etc/default
@@ -150,7 +150,7 @@ parts:
                         - -libexec/lxc/lxc-user-nic
                         - libexec/lxc
                         - bin/init.lxc
-                        - share/lxc
+        #               - share/lxc
                         - -include
                         - -share/doc
                         - -bin
