@@ -66,5 +66,3 @@ parts:
                         - bin/ovs-vswitchd
                         - share/openvswitch/vswitch.ovsschema
                         - -etc
-                        - -include
-        btrfs-progs:
