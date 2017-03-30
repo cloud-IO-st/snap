@@ -1,0 +1,49 @@
+############# GIT #####################
+mkdir -p ~/dev/cloud-iost/; cd ~/dev/cloud-iost/
+git clone https://github.com/cloud-IO-st/snap.git
+
+nano ~/dev/cloud-iost/snap/snapcraft.yaml
+------------------------ cut ----------------------------------
+name: cloud
+version: '4.0.14-(BRANCH)'
+summary: Subutai Open Source LXC orchestration tool
+description: |
+  For more details please visit our site: http://IO.st and https://subut.ai
+
+grade: stable
+confinement: devmode
+------------------------ cut ----------------------------------
+cd ~/dev/cloud-iost/snap/
+
+snapcraft update		# snapcraft search
+snapcraft clean
+snapcraft prime
+snapcraft
+
+############# GIT #####################
+cd ~/dev/cloud-iost/snap/
+git pull                                        # mc und/oder nano ...
+
+--------------------------------------------------------------
+git config --global user.email "snapcraft@IO.st"
+git config --global user.name "Peter Mayer"
+#git init; git remote -v; git remote rm origin; git remote -v;
+#git remote add origin https://github.com/snapcraft-IO-st/webapp-ubuntu; git remote -v
+
+git add .; git commit -m "Initial commit"       # git commit -m "Update commit"
+git push -u origin master                       # git checkout -b gh-pages; git push
+
+--------------------------------------------------------------
+git add .; git commit -m "Update commit"       # git commit -m "Update commit"
+git commit -m "Update Site"
+git push -u origin master
+
+
+scp cloud-iost_4.0.14_amd64.snap pm@pro4reg.ifo.net:/tmp
+scp pm@pro4reg.ifo.net:/tmp/cloud-iost_4.0.14_amd64.snap
+
+# snapcraft register subutai
+snapcraft register cloud-iost
+snapcraft push cloud-iost_4.0.14_amd64.snap --release=edge
+
+
