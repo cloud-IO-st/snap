@@ -1,0 +1,70 @@
+name: subutai
+version: '4.0.14'
+summary: Subutai Open Source LXC orchestration tool
+description: |
+  For more details please visit our site: https://subut.ai -> http://IO.st
+
+grade: stable
+confinement: devmode
+
+apps:
+        subutai:
+                command: bin/subutai
+                aliases: [subutai]
+        p2p:
+                command: bin/p2p
+        btrfsinit:
+                command: bin/btrfsinit
+        #criu:
+        #        command: bin/criu
+
+        dhcp-service:
+                command: bin/dhcpd.sh
+                daemon: simple
+        agent-service:
+                command: bin/agent.sh
+                daemon: simple
+        cgmanager-service:
+                command: bin/cgmanagerd.sh
+                daemon: simple
+        rngd-service:
+                command: bin/rngd -f -r /dev/urandom
+                daemon: simple
+        p2p-service:
+                command: bin/p2p daemon -save $SNAP_DATA/p2p.save
+                daemon: simple
+        dns-service:
+                command: bin/dnsmasq -k --address=/gw.intra.lan/10.10.10.1
+                daemon: simple
+        ovs-init-db-service:
+                command: bin/ovs-init-db
+                daemon: simple
+        ovs-init-switch-service:
+                command: bin/ovs-init-switch
+                daemon: simple
+        ovs-init-br-service:
+                command: bin/ovs-init-br
+                daemon: simple
+        nginx-service:
+                command: bin/nginx.sh start
+                daemon: simple
+
+parts:
+        wrappers:
+                plugin: dump
+                source: ./extras
+        ovs:
+                plugin: autotools
+                source: https://github.com/openvswitch/ovs.git
+                organize:
+                        sbin: bin
+                snap:
+                        - bin/ovsdb-server
+                        - bin/ovsdb-tool
+                        - bin/ovs-ofctl
+                        - bin/ovs-vsctl
+                        - bin/ovs-vswitchd
+                        - share/openvswitch/vswitch.ovsschema
+                        - -etc
+                        - -include
+        btrfs-progs:
